@@ -26,3 +26,5 @@ when "freebsd"
 else
   default['emacs']['packages'] = ["emacs"]  
 end
+
+default['emacs']['config']["repository"] = "git://github.com/overtone/emacs-live.git"

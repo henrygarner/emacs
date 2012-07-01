@@ -12,16 +12,16 @@ end
 
 bash "download emacs24" do
   cwd basedir
-  creates srcdir
+  creates "/usr/local/bin/emacs"
   code <<-EOH
-  wget http://ftp.gnu.org/gnu/emacs/#{version}.tar.gz
-  tar -zxf #{version}.tar.gz
+    wget http://ftp.gnu.org/gnu/emacs/#{version}.tar.gz
+    tar -zxf #{version}.tar.gz
   EOH
 end
 
 bash "build emacs24" do
   cwd srcdir
-  creates "#{srcdir}/src/emacs"
+  creates "/usr/local/bin/emacs"
   code <<-EOH
     ./configure --without-x && \
     make bootstrap && \
@@ -33,10 +33,4 @@ execute "install emacs24" do
   cwd srcdir
   command "make install 2>&1 >| make-#{node.name}-#{node['ohai_time']}"
   creates "/usr/local/bin/emacs"
-  only_if "#{srcdir}/src/emacs --version"
-end
-
-git "/home/vagrant/.emacs.d" do
-  repository "git://github.com/overtone/emacs-live.git"
-  action :checkout
 end
